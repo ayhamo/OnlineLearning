@@ -24,9 +24,13 @@ public class Easy {
         //System.out.println(removeDuplicates26(new int[]{1,1,2}));
 
         //System.out.println(removeElement27(new int[]{0, 1, 2, 2, 3, 0, 4, 2}, 2));
+
+        //*System.out.println(searchInsert35(new int[]{1,3,5,6},5));
+
+        //System.out.println(lengthOfLastWord58("   fly me   to   the moon  "));
+
+        //System.out.println(Arrays.toString(plusOne66(new int[]{9, 9, 9, 9})));
     }
-
-
 
     public static int[] twoSum1(int[] nums, int target) {
         int[] ind = new int[2]; //only 2 index results
@@ -156,5 +160,61 @@ public class Easy {
         }
         return index;
     }
+
+    /*--------------------------------------------------------------------*/
+
+    public static int searchInsert35(int[] nums, int target) {
+        if (nums == null || nums.length == 0) return 0;
+
+        int n = nums.length;
+        int left = 0;
+        int right = n - 1;
+        while (left < right) {
+            int mid = left + (right - left) / 2; //middle index, avoid overflow rather than "m = (l + r)/2"
+
+            if (nums[mid] == target) return mid;
+            else if (nums[mid] > target) right = mid; // right could be the result
+            else left = mid + 1; // mid + 1 could be the result
+        }
+
+        // 1 element left at the end
+        // post-processing
+        return nums[left] < target ? left + 1 : left;
+    }
+
+    /*--------------------------------------------------------------------*/
+
+    public static int lengthOfLastWord58(String s) {
+        int count = 0;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            if (s.charAt(i) != ' ') { // a letter is found so count
+                count++;
+            } else {  // it's a white space instead
+                //  Did we already started to count a word ? Yes so we found the last word
+                if (count > 0) return count;
+            }
+        }
+        return count;
+    }
+
+    /*--------------------------------------------------------------------*/
+
+    public static int[] plusOne66(int[] digits) {
+        int n = digits.length;
+        for (int i = n - 1; i >= 0; i--) {
+            if (digits[i] <= 8) {
+                digits[i]++;
+                return digits;
+            }
+
+            digits[i] = 0;
+        }
+
+        int[] newNumber = new int[n + 1];
+        newNumber[0] = 1;
+
+        return newNumber;
+    }
 }
+
 
