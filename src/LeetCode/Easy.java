@@ -30,6 +30,12 @@ public class Easy {
         //System.out.println(lengthOfLastWord58("   fly me   to   the moon  "));
 
         //System.out.println(Arrays.toString(plusOne66(new int[]{9, 9, 9, 9})));
+
+        //System.out.println(addBinary67("1010", "1011"));
+
+        //System.out.println(mySqrt69(2147395600));
+
+        System.out.println(climbStairs70(3));
     }
 
     public static int[] twoSum1(int[] nums, int target) {
@@ -214,6 +220,58 @@ public class Easy {
         newNumber[0] = 1;
 
         return newNumber;
+    }
+
+    /*--------------------------------------------------------------------*/
+
+    public static String addBinary67(String a, String b) {
+        StringBuilder sb = new StringBuilder();
+        int i = a.length() - 1, j = b.length() - 1, carry = 0;
+        while (i >= 0 || j >= 0) {
+            int sum = carry; //if there is a carry from the last addition, add it to carry
+            if (j >= 0) sum += b.charAt(j--) - '0'; //we subtract '0' to get the int value of the char from the ascii
+            if (i >= 0) sum += a.charAt(i--) - '0';
+            sb.append(sum % 2); //if sum==2 or sum==0 append 0 cause 1+1=0 in this case
+            carry = sum / 2; //if sum==2 we have a carry, else no carry 1/2 rounds down to 0 in integer arithematic
+        }
+        if (carry != 0) sb.append(carry); //leftover carry, add it
+        return sb.reverse().toString();
+    }
+
+    /*--------------------------------------------------------------------*/
+
+    public static int mySqrt69(int x) {
+        long r = x;
+        while (r * r > x) {
+            r = (r + x / r) / 2; //using integer division for the Newton method*
+
+            //r = r -1; // (using linear search, descending), takes too much time on LeetCode
+            //example: sqrt(27) = 5 because 6^2 > 27 and 5^2 !> 27
+        }
+        return (int) r;
+    }
+
+    /*--------------------------------------------------------------------*/
+
+    public static int climbStairs70(int n) {
+        // https://leetcode.com/problems/climbing-stairs/discuss/25299/Basically-it's-a-fibonacci.
+        // 3 base cases, can be summed in the if below
+        //if(n <= 0) return 0;
+        //if(n == 1) return 1;
+        //if(n == 2) return 2;
+        if (n < 3)
+            return n;
+
+        int one_step_before = 2;
+        int two_steps_before = 1;
+        int all_ways = 0;
+
+        for (int i = 2; i < n; i++) {
+            all_ways = one_step_before + two_steps_before;
+            two_steps_before = one_step_before;
+            one_step_before = all_ways;
+        }
+        return all_ways;
     }
 }
 
