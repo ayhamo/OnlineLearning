@@ -1,9 +1,8 @@
 package LeetCode;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import com.sun.source.tree.Tree;
+
+import java.util.*;
 
 public class Easy {
     public static void main(String[] args) {
@@ -35,7 +34,15 @@ public class Easy {
 
         //System.out.println(mySqrt69(2147395600));
 
-        System.out.println(climbStairs70(3));
+        //System.out.println(climbStairs70(3));
+
+        //ListNode list3 = new ListNode(1, new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(3)))));
+        //System.out.println(deleteDuplicates83(list3));
+
+        //merge88(new int[]{1, 2, 3, 0, 0, 0}, 3, new int[]{2, 5, 6}, 3);
+
+        //TreeNode tree = new TreeNode(1, null, new TreeNode(2, new TreeNode(3, null, null), null));
+        //System.out.println(inorderTraversal94(tree));
     }
 
     public static int[] twoSum1(int[] nums, int target) {
@@ -272,6 +279,58 @@ public class Easy {
             one_step_before = all_ways;
         }
         return all_ways;
+    }
+
+    /*--------------------------------------------------------------------*/
+
+    public static ListNode deleteDuplicates83(ListNode head) {
+        if (head == null || head.next == null) return head;
+
+        ListNode list = head;
+        while (list.next != null) {
+            if (list.val == list.next.val)
+                list.next = list.next.next;
+            else
+                list = list.next;
+        }
+
+        return head;
+    }
+
+    /*--------------------------------------------------------------------*/
+
+    public static void merge88(int[] nums1, int m, int[] nums2, int n) {
+        int tail1 = m - 1, tail2 = n - 1, finished = m + n - 1;
+        while (tail1 >= 0 && tail2 >= 0) {
+            nums1[finished--] = (nums1[tail1] > nums2[tail2]) ? nums1[tail1--] : nums2[tail2--];
+        }
+
+        while (tail2 >= 0) { //only need to combine with remaining nums2, if any
+            nums1[finished--] = nums2[tail2--];
+        }
+
+        System.out.println(Arrays.toString(nums1));
+    }
+
+    /*--------------------------------------------------------------------*/
+
+    public static List<Integer> inorderTraversal94(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode cur = root;
+
+        while (cur != null || !stack.empty()) {
+            while (cur != null) { //push all elements first then go to left ( in-order)
+                stack.add(cur);
+                cur = cur.left;
+            }
+            cur = stack.pop(); //then pop all element
+            list.add(cur.val);
+            cur = cur.right; // to handle left elements that were not in the stack
+        }
+
+        return list;
     }
 }
 
