@@ -41,8 +41,15 @@ public class Easy {
 
         //merge88(new int[]{1, 2, 3, 0, 0, 0}, 3, new int[]{2, 5, 6}, 3);
 
-        //TreeNode tree = new TreeNode(1, null, new TreeNode(2, new TreeNode(3, null, null), null));
+        //TreeNode tree = new TreeNode(1, null, new TreeNode(2, new TreeNode(3), null));
         //System.out.println(inorderTraversal94(tree));
+
+        //TreeNode tree1 = new TreeNode(1, new TreeNode(2), new TreeNode(1));
+        //TreeNode tree2 = new TreeNode(1, new TreeNode(1), new TreeNode(2));
+        //*System.out.println(isSameTree100(tree1, tree2));
+
+        //TreeNode tree3 = new TreeNode(1, new TreeNode(2, new TreeNode(3), new TreeNode(4)), new TreeNode(2, new TreeNode(4), new TreeNode(3)));
+        //*System.out.println(isSymmetric101(tree3));
     }
 
     public static int[] twoSum1(int[] nums, int target) {
@@ -332,6 +339,68 @@ public class Easy {
 
         return list;
     }
+
+    /*--------------------------------------------------------------------*/
+
+    public static boolean isSameTree100(TreeNode p, TreeNode q) {
+        if (p == null && q == null) return true; //if both are empty
+        if ((p == null && q != null) || (p != null && q == null)) return false; //if one is empty
+        if (p.val != q.val) return false; //base case
+        return isSameTree100(p.left, q.left) && isSameTree100(p.right, q.right);
+
+        /** any there solution that I found **/
+//        Queue<TreeNode> queue = new LinkedList<>();
+//        queue.add(p);
+//        queue.add(q);
+//        while(!queue.isEmpty()){
+//            TreeNode f = queue.poll();
+//            TreeNode s = queue.poll();
+//            if(f == null && s == null){
+//                continue;
+//            }else if(f == null || s == null || f.val != s.val){
+//                return false;
+//            }
+//            queue.add(f.left);
+//            queue.add(s.left);
+//            queue.add(f.right);
+//            queue.add(s.right);
+//        }
+//        return true;
+    }
+
+    /*--------------------------------------------------------------------*/
+
+    public static boolean isSymmetric101(TreeNode root) {
+        if (root ==null)
+            return true;
+        return isSymmetricSubTree(root.left, root.right);
+
+        /** iterative solution I found */
+//        if (root == null) return true;
+//        Stack<TreeNode> stack = new Stack<>();
+//        stack.push(root.left);
+//        stack.push(root.right);
+//        while (!stack.empty()) {
+//            TreeNode n1 = stack.pop(), n2 = stack.pop();
+//            if (n1 == null && n2 == null) continue;
+//            if (n1 == null || n2 == null || n1.val != n2.val) return false;
+//            stack.push(n1.left);
+//            stack.push(n2.right);
+//            stack.push(n1.right);
+//            stack.push(n2.left);
+//        }
+//        return true;
+    }
+    public static boolean isSymmetricSubTree(TreeNode left,  TreeNode right){
+        if(left ==null && right ==null) return true;
+        if(left==null || right ==null) return false;
+        if(left.val == right.val ) {
+            return isSymmetricSubTree(left.left, right.right) && isSymmetricSubTree(left.right, right.left);
+        }else
+            return false;
+    }
+
+    /*--------------------------------------------------------------------*/
 }
 
 
